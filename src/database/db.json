@@ -1,11 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "Apple iPhone 15",
-    "description": "6.1-inch smartphone with A16 Bionic chip, 128GB storage, and dual-camera system.",
-    "price": 999
-  },
-  {
     "id": 2,
     "name": "Samsung Galaxy S24",
     "description": "Flagship Android smartphone featuring AMOLED display, Snapdragon processor, and 256GB storage.",
@@ -58,5 +52,11 @@
     "name": "JBL Flip 6",
     "description": "Portable Bluetooth speaker with powerful bass, waterproof design, and 12-hour playtime.",
     "price": 129
+  },
+  {
+    "id": 1778748712222,
+    "name": "GoPro HERO12 Black",
+    "description": "Action camera capable of 5.3K video recording with advanced image stabilization.",
+    "price": 399
   }
 ]
