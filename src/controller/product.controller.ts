@@ -18,50 +18,52 @@ export const productController = async (req: IncomingMessage, res: ServerRespons
 
     // get all products
     if (url === "/products" && method === "GET") {
-
-        const products = readProduct();
         try {
+            const products = readProduct();
             return sendResponse(res, 200, true, "Products retrive Successfully", products)
         } catch (error) {
             return sendResponse(res, 500, false, "There is a problem", error)
         }
     } // single product
     else if (method === 'GET' && id !== null) {
-        const products = readProduct();
-        const product = products.find((p: IProduct) => p.id === id)
-        console.log(product);
-        if (!product) {
-            return sendResponse(res, 404, false, "product not found")
-        }
-        else {
+        try {
+            const products = readProduct();
+            const product = products.find((p: IProduct) => p.id === id)
+            console.log(product);
             return sendResponse(res, 200, true, "Product retrive Successfully", product)
+        } catch (error) {
+            return sendResponse(res, 404, false, "product not found", error)
         }
+
     } // add product
     else if (method === "POST" && url === '/products') {
         // created product by post method
-        const body = await parseBody(req);
-        const products = readProduct();
-        const newProduct = {
-            id: Date.now(),
-            ...body,
+        try {
+            const body = await parseBody(req);
+            const products = readProduct();
+            const newProduct = {
+                id: Date.now(),
+                ...body,
+            }
+            products.push(newProduct);
+            console.log(newProduct);
+            insertProduct(products);
+            return sendResponse(res, 200, true, "Product Added Successfully", newProduct)
+        } catch (error) {
+            return sendResponse(res, 404, false, "product not found", error)
         }
-        products.push(newProduct);
-        console.log(newProduct);
-        insertProduct(products);
-        return sendResponse(res, 200, true, "Product Added Successfully", newProduct)
     }
     else if (method === "PUT" && id !== null) {
-        const body = await parseBody(req);
-        const products = readProduct();
-        const index = products.findIndex((p: IProduct) => p.id === id);
-        console.log(index);
-        if (index < 0) {
-            return sendResponse(res, 404, false, "product not found")
-        }
-        else {
+        try {
+            const body = await parseBody(req);
+            const products = readProduct();
+            const index = products.findIndex((p: IProduct) => p.id === id);
+            console.log(index);
             products[index] = { id: products[index].id, ...body }
             insertProduct(products);
             return sendResponse(res, 200, true, "Product Edited Successfully", products)
+        } catch (error) {
+            return sendResponse(res, 404, false, "product not found", error)
         }
 
     }
